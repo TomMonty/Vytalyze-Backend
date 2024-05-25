@@ -16,7 +16,7 @@ Convention de nommage de classes
 Guide d’installation et de lancement
 
   - télécharger le code
-  - créer les bases de données nécessaire :
+  - créer la base de données Paris2024 :
 
 
 -- Create the nationalities table first as it is referenced by users
