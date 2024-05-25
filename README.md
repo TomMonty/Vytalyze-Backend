@@ -16,7 +16,70 @@ Convention de nommage de classes
 Guide d’installation et de lancement
 
   - télécharger le code
-  - créer les bases de données nécessaire
+  - créer les bases de données nécessaire :
+
+
+-- Create the nationalities table first as it is referenced by users
+CREATE TABLE nationalities (
+    id INT NOT NULL AUTO_INCREMENT,
+    country_name VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (id)
+);
+
+-- Create the sports table as it is referenced by users and user_sports
+CREATE TABLE sports (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (id)
+);
+
+-- Create the users table which references nationalities and sports
+CREATE TABLE users (
+    id INT NOT NULL AUTO_INCREMENT,
+    first_name VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    last_name VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    gender ENUM('Male', 'Female', 'Other') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    nationality_id INT NOT NULL,
+    sport_id INT DEFAULT NULL,
+    mail VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    password VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (nationality_id) REFERENCES nationalities(id),
+    FOREIGN KEY (sport_id) REFERENCES sports(id)
+);
+
+-- Create the user_sports table which references users and sports
+CREATE TABLE user_sports (
+    user_id INT NOT NULL,
+    sport_id INT NOT NULL,
+    PRIMARY KEY (user_id, sport_id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (sport_id) REFERENCES sports(id)
+);
+
+-- Create the user_images table which references users
+CREATE TABLE user_images (
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    user_image VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- Create the posts table which references users
+CREATE TABLE posts (
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    title VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    post_photo VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+    description TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP DEFAULT_GENERATED,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+
+
   - dans le terminal mettre : php -S localhost:8080
 
 Roadmap (prochaines tâches à entreprendre)
