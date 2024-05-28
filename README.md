@@ -13,8 +13,9 @@ La mairie lance alors un appel d’offre pour la conception d’un site autour d
 
 ### Convention de nommage de classes
 
-  Pour les variables : $minusculeMajuscule 
-  Pour les classes : minuscule-minuscule
+Pour les variables : $minusculeMajuscule 
+  
+Pour les classes : minuscule-minuscule
 
 ### Guide d’installation et de lancement
 
