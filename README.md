@@ -13,74 +13,127 @@ Convention de nommage de classes
   Pour les variables : minusculeMajuscule
   Pour les classes : minuscule-minuscule
 
-Guide d’installation et de lancement
+###Guide d’installation et de lancement
 
-  - télécharger le code
-  - créer la base de données Paris2024 :
-
-
--- Create the nationalities table first as it is referenced by users
-CREATE TABLE nationalities (
-    id INT NOT NULL AUTO_INCREMENT,
-    country_name VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-    PRIMARY KEY (id)
-);
-
--- Create the sports table as it is referenced by users and user_sports
-CREATE TABLE sports (
-    id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-    PRIMARY KEY (id)
-);
-
--- Create the users table which references nationalities and sports
-CREATE TABLE users (
-    id INT NOT NULL AUTO_INCREMENT,
-    first_name VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-    last_name VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-    gender ENUM('Male', 'Female', 'Other') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-    nationality_id INT NOT NULL,
-    sport_id INT DEFAULT NULL,
-    mail VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-    password VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (nationality_id) REFERENCES nationalities(id),
-    FOREIGN KEY (sport_id) REFERENCES sports(id)
-);
-
--- Create the user_sports table which references users and sports
-CREATE TABLE user_sports (
-    user_id INT NOT NULL,
-    sport_id INT NOT NULL,
-    PRIMARY KEY (user_id, sport_id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (sport_id) REFERENCES sports(id)
-);
-
--- Create the user_images table which references users
-CREATE TABLE user_images (
-    id INT NOT NULL AUTO_INCREMENT,
-    user_id INT NOT NULL,
-    user_image VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
-);
-
--- Create the posts table which references users
-CREATE TABLE posts (
-    id INT NOT NULL AUTO_INCREMENT,
-    user_id INT NOT NULL,
-    title VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-    post_photo VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-    description TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP DEFAULT_GENERATED,
-    PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
-);
+- Télécharger le code
 
 
 
-  - dans le terminal mettre : php -S localhost:8080
+- Créer la base de données Paris2024 :
+
+  -- Créer d'abord la table des nationalités car elle est référencée par les utilisateurs
+          
+      CREATE TABLE nationalities ( id INT NOT NULL AUTO_INCREMENT, country_name VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL, PRIMARY KEY (id) );
+          
+  -- Créer la table des sports car elle est référencée par les utilisateurs et user_sports
+
+      CREATE TABLE sports ( id INT NOT NULL AUTO_INCREMENT, name VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL, PRIMARY KEY (id) );
+          
+  -- Créer la table des utilisateurs qui référence les nationalités et les sports
+
+      CREATE TABLE users ( id INT NOT NULL AUTO_INCREMENT, first_name VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL, last_name VARCHAR(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL, gender ENUM('Male', 'Female', 'Other') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL, nationality_id INT NOT NULL, sport_id INT DEFAULT NULL, mail VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL, password VARCHAR(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL, PRIMARY KEY (id), FOREIGN KEY (nationality_id) REFERENCES nationalities(id), FOREIGN KEY (sport_id) REFERENCES sports(id) );
+          
+  -- Créer la table user_sports qui référence les utilisateurs et les sports
+
+      CREATE TABLE user_sports ( user_id INT NOT NULL, sport_id INT NOT NULL, PRIMARY KEY (user_id, sport_id), FOREIGN KEY (user_id) REFERENCES users(id), FOREIGN KEY (sport_id) REFERENCES sports(id) );
+          
+  -- Créer la table user_images qui référence les utilisateurs 
+
+      CREATE TABLE user_images ( id INT NOT NULL AUTO_INCREMENT, user_id INT NOT NULL, user_image VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL, PRIMARY KEY (id), FOREIGN KEY (user_id) REFERENCES users(id) );
+          
+  -- Créer la table des publications qui référence les utilisateurs 
+
+      CREATE TABLE posts ( id INT NOT NULL AUTO_INCREMENT, user_id INT NOT NULL, title VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL, post_photo VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL, description TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP DEFAULT_GENERATED, PRIMARY KEY (id), FOREIGN KEY (user_id) REFERENCES users(id) );
+
+  -- Insérer maintenant les noms des sports dans la table des noms
+
+      INSERT INTO sports (name) VALUES
+          ('Athletics'),
+          ('Rowing'),
+          ('Badminton'),
+          ('Basketball'),
+          ('3x3 Basketball'),
+          ('BMX'),
+          ('BMX Freestyle'),
+          ('Boxing'),
+          ('Breakdancing'),
+          ('Canoe Slalom'),
+          ('Canoe Sprint'),
+          ('Track Cycling'),
+          ('Road Cycling'),
+          ('Mountain Biking'),
+          ('Equestrian Eventing'),
+          ('Equestrian Dressage'),
+          ('Show Jumping'),
+          ('Climbing'),
+          ('Fencing'),
+          ('Football'),
+          ('Golf'),
+          ('Artistic Gymnastics'),
+          ('Rhythmic Gymnastics'),
+          ('Weightlifting'),
+          ('Handball'),
+          ('Field Hockey'),
+          ('Judo'),
+          ('Wrestling'),
+          ('Swimming'),
+          ('Open Water Swimming'),
+          ('Synchronized Swimming'),
+          ('Modern Pentathlon'),
+          ('Diving'),
+          ('Rugby Sevens'),
+          ('Skateboarding'),
+          ('Surfing'),
+          ('Taekwondo'),
+          ('Tennis'),
+          ('Table Tennis'),
+          ('Shooting'),
+          ('Archery'),
+          ('Trampoline'),
+          ('Triathlon'),
+          ('Sailing'),
+          ('Beach Volleyball'),
+          ('Volleyball'),
+          ('Water Polo');
+
+   -- Insérer maintenant les noms des pays dans la table des nationalités
+     
+      INSERT INTO nationalities (country_name) VALUES
+          ('Afrique du Sud'),
+          ('Allemagne'),
+          ('Australie'),
+          ('Autriche'),
+          ('Belgique'),
+          ('Brésil'),
+          ('Canada'),
+          ('Chine'),
+          ('Corée du Sud'),
+          ('Cuba'),
+          ('Danemark'),
+          ('Espagne'),
+          ('États-Unis'),
+          ('Éthiopie'),
+          ('Finlande'),
+          ('France'),
+          ('Hongrie'),
+          ('Italie'),
+          ('Jamaïque'),
+          ('Japon'),
+          ('Kenya'),
+          ('Norvège'),
+          ('Nouvelle-Zélande'),
+          ('Pays-Bas'),
+          ('Pologne'),
+          ('Royaume-Uni'),
+          ('Russie'),
+          ('Suède'),
+          ('Suisse'),
+          ('Ukraine');
+
+
+- Dans le code, aller dans congi/database.php et ajouter le mot de pass de sa database dans DB PASSWORD
+- Dans le terminal mettre : php -S localhost:8080
+
 
 Roadmap (prochaines tâches à entreprendre)
   
